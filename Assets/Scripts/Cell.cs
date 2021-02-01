@@ -12,7 +12,6 @@ public class Cell : MonoBehaviour
     public int BombsAround;
     public bool isBomb;
     public bool isOpened;
-    public bool MayOpened;
     public Sprite Ico;
     private SpriteRenderer _spriteRenderer;
     public List<Cell> MayOpenedCells;
@@ -47,12 +46,7 @@ public class Cell : MonoBehaviour
                 cell.MarkCell(MarkersCell.M);
             else
                 cell.MarkCell((MarkersCell)cell.BombsAround);
-    }
-
-    private void OpenClearCell()
-    {
-        
-    }
+    }s
 
     private void FlaggingCell()
     {
@@ -90,10 +84,15 @@ public class Cell : MonoBehaviour
             .Where(t => t.isOpened == false))
         {
             mayOpenedCell.MarkCell((MarkersCell) mayOpenedCell.BombsAround);
-            foreach (var openedCell in mayOpenedCell.MayOpenedCells)
+            mayOpenedCell.OpenEasyCells();
+
+        }
+
+        if (BombsAround == 0)
+        {
+            foreach (var openedCell in MayOpenedCells)
             {
                 openedCell.MarkCell((MarkersCell) openedCell.BombsAround);
-                mayOpenedCell.OpenEasyCells();
             }
         }
     }
